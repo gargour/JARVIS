@@ -1,0 +1,141 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot J.A.R.V.I.S.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #1c1c1c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .box {
+      position: relative;
+      width: 420px;
+      padding: 40px 30px;
+      border-radius: 10px;
+      background: #222;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .box::before, .box::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 420px;
+      height: 420px;
+      background: linear-gradient(0deg, transparent, transparent, #50C878, #800080);
+      z-index: 1;
+      transform-origin: bottom right;
+      animation: rotate 6s linear infinite;
+    }
+
+    .box::after {
+      animation-delay: -3s;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .form-container {
+      position: relative;
+      background: #222;
+      padding: 30px;
+      border-radius: 10px;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .logo {
+      width: 120px;
+      margin: 0 auto 20px;
+      display: block;
+    }
+
+    h1 {
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input[type="text"] {
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background: #333;
+      color: #fff;
+    }
+
+    button {
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 30px;
+      background: #50C878;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #43b56a;
+    }
+
+    h2 {
+      color: #50C878;
+      margin-top: 20px;
+    }
+
+    p {
+      color: #eee;
+      margin-top: 10px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <div class="form-container">
+      <img src="{% static 'chatbot/jarvis-logo.png' %}" alt="JARVIS Logo" class="logo">
+      <h1>Pose ta question </h1>
+      <form method="post">
+        {% csrf_token %}
+        <input type="text" name="question" placeholder="Ta question ici..." required>
+        <button type="submit">Envoyer</button>
+      </form>
+
+      {% if response %}
+        <h2>Réponse :</h2>
+        <p>{{ response }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+</body>
+</html>
