@@ -1,9 +1,8 @@
 import fitz
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
-from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_community.llms import Ollama
+from langchain_ollama import OllamaLLM  # Changement ici : nouvelle importation
 import os
 from langchain_huggingface import HuggingFaceEmbeddings
 
@@ -36,10 +35,11 @@ def setup_bot():
 
 def get_bot_response(query):
     setup_bot()
-#llm = Ollama(model="tinyllama")
-    llm = Ollama(model=LLM_MODEL)
+    llm = OllamaLLM(model=LLM_MODEL)  # Utiliser la nouvelle classe
 
-    docs = retriever.get_relevant_documents(query)[:3]
+    # Utiliser invoke() au lieu de get_relevant_documents()
+    docs = retriever.invoke(query)[:3]  # Vérifie la doc selon ton retriever
+
     context = "\n\n".join(d.page_content for d in docs)
 
     prompt = f"""
@@ -59,6 +59,6 @@ Question : {query}
 Réponse :
 """.strip()
 
-    response = llm(prompt)
+    # Utiliser invoke() pour appeler le LLM
+    response = llm.invoke(prompt)
     return response
-    

@@ -1,11 +1,87 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Accueil</title>
+    <title>Accueil - JARVIS</title>
+    <style>
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+          background: #1c1c1c;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+          padding: 20px;
+        }
+
+        .box {
+          position: relative;
+          width: 420px;
+          padding: 40px 30px;
+          border-radius: 10px;
+          background: #222;
+          overflow: hidden;
+          z-index: 2;
+          text-align: center;
+          box-shadow: 0 0 20px #50C878aa;
+        }
+
+        .box::before, .box::after {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 420px;
+          height: 420px;
+          background: linear-gradient(0deg, transparent, transparent, #50C878, #800080);
+          z-index: 1;
+          transform-origin: bottom right;
+          animation: rotate 6s linear infinite;
+        }
+
+        .box::after {
+          animation-delay: -3s;
+        }
+
+        @keyframes rotate {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        h1 {
+          color: #fff;
+          margin-bottom: 30px;
+          font-weight: 700;
+          font-size: 2.5rem;
+        }
+
+        a {
+          display: inline-block;
+          margin: 10px 0;
+          padding: 12px 30px;
+          background: #50C878;
+          color: white;
+          font-weight: bold;
+          border-radius: 30px;
+          text-decoration: none;
+          transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+          background: #43b56a;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bienvenue sur JARVIS</h1>
-    <a href="/chat/">Accéder au Chatbot</a>
-    <a href="/upload/">Uploader un PDF</a>
+    <div class="box">
+      <h1>Bienvenue sur JARVIS</h1>
+      <a href="/chat/">Accéder au Chatbot</a><br>
+      <a href="/upload/">Uploader un PDF</a>
+    </div>
 </body>
 </html>
