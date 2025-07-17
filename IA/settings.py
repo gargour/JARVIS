@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+STATIC_URL = '/static/'
 
 # Application definition
 
@@ -57,7 +58,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # Si tu as un dossier global "templates" à la racine du projet, tu peux le préciser ici :
-        'DIRS': [BASE_DIR / 'templates'],  
+        'DIRS': [BASE_DIR / "templates", BASE_DIR / "JARVIS" / "templates"],
         'APP_DIRS': True,  # Cherche dans les dossiers templates de chaque app (dont JARVIS)
         'OPTIONS': {
             'context_processors': [
@@ -68,6 +69,14 @@ TEMPLATES = [
         },
     },
 ]
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.votre_serveur.com"  # ex: 'smtp.gmail.com'
+EMAIL_PORT = 587  # ou 465 pour SSL
+EMAIL_HOST_USER = "votre_adresse@email.com"
+EMAIL_HOST_PASSWORD = "votre_mot_de_passe"
+EMAIL_USE_TLS = True  # ou False selon le port
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 WSGI_APPLICATION = 'IA.wsgi.application'
 

@@ -21,9 +21,74 @@ def chat_view(request):
 
 def home(request):
     return render(request, "chatbot/home.html")
-def handle_pdf_upload(request):
-    return HttpResponse("PDF upload handler.")
+from django.shortcuts import render
 
+def upload_pdf(request):
+    # Affiche un formulaire ou gère l'upload selon tes besoins
+    return render(request, 'chatbot/upload_pdf.html')
+
+
+from django.core.mail import send_mail
+from django.conf import settings
+from django.shortcuts import render
+
+def contact_admin(request):
+    success = None
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        message = request.POST.get("message")
+        full_message = f"Message de {name} <{email}> :\n\n{message}"
+
+        send_mail(
+            subject="Nouveau message via le formulaire de contact",
+            message=full_message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=["amr.gara@sesame.com.tn"],
+        )
+        success = "Votre message a bien été envoyé !"
+    return render(request, "chatbot/contact.html", {"success": success})
+from .forms import RegisterForm
+
+
+def register_view(request):
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("login")  # Ou la page d'accueil selon tes besoins
+    else:
+        form = RegisterForm()
+    return render(request, 'chatbot/register.html', {'form': form})
+
+
+
+
+
+
+
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            login(request, form.get_user())
+            return render(request, 'chatbot/home.html', {'form': form})  # ou une autre vue
+    else:
+        form = AuthenticationForm()
+    return render(request, 'chatbot/login.html', {'form': form})
+
+def cree_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'chatbot/home.html', {'form': form})
+    else:
+        form = UserCreationForm()
+    return render(request, 'chatbot/register.html', {'form': form})
 # Vues API REST
 
 class DocumentUploadView(generics.CreateAPIView):

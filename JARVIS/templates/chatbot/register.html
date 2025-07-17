@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact Admin</title>
+  <title>Inscription</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;700&display=swap');
     * {
@@ -75,18 +75,13 @@
     }
     input[type="text"],
     input[type="email"],
-    textarea {
+    input[type="password"] {
       padding: 10px;
       font-size: 14px;
       border: none;
       border-radius: 5px;
       background: #333;
       color: #fff;
-      resize: none;
-    }
-    textarea {
-      min-height: 80px;
-      font-family: 'Poppins', sans-serif;
     }
     button {
       padding: 10px;
@@ -124,52 +119,33 @@
       font-weight: 500;
       user-select: none;
     }
-    .info-contact {
-      margin-bottom: 18px;
-      color: #b7f9fb;
-      font-size: 16px;
-    }
-    .success-message {
-      background: #a8ffb3;
-      color: #006600;
-      border-radius: 5px;
-      margin-bottom: 15px;
-      padding: 10px;
-      font-size: 14px;
-    }
     .errors {
       background: #ffb3b3;
       color: #b20000;
       border-radius: 5px;
       margin-bottom: 15px;
       padding: 10px;
-      font-size: 14px;
     }
   </style>
 </head>
 <body>
   <div class="box">
     <div class="inner-box">
-      <h1>Contact Admin</h1>
-      <div class="info-contact">
-        Pour toute question ou problème, contactez directement l’admin à :<br>
-        <a href="mailto:amr.gara@sesame.com.tn">amr.gara@sesame.com.tn</a>
-      </div>
+      <h1>Inscription</h1>
+      {% if form.errors %}
+        <div class="errors">
+          {{ form.errors }}
+        </div>
+      {% endif %}
       <form method="post">
         {% csrf_token %}
-        {% if success %}
-          <div class="success-message">{{ success }}</div>
-        {% endif %}
-        {% if form.errors %}
-          <div class="errors">{{ form.errors }}</div>
-        {% endif %}
-        <input type="text" name="name" placeholder="Votre nom" required>
-        <input type="email" name="email" placeholder="Votre email" required>
-        <textarea name="message" placeholder="Votre message" required></textarea>
-        <button type="submit">Envoyer</button>
-        <a href="{% url 'home' %}">← Retour à l'accueil</a>
+        {{ form.username.label_tag }}<input type="text" name="username" required>
+        {{ form.email.label_tag }}<input type="email" name="email" required>
+        {{ form.password1.label_tag }}<input type="password" name="password1" required>
+        {{ form.password2.label_tag }}<input type="password" name="password2" required>
+        <button type="submit">S'inscrire</button>
       </form>
-      <p class="footer-text">Vous recevrez une réponse dans les plus brefs délais.</p>
+      <p>Tu as déjà un compte ? <a href="{% url 'login' %}">Connecte-toi ici</a></p>
     </div>
   </div>
 </body>

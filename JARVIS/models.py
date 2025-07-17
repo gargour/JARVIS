@@ -55,3 +55,4 @@ class ChatMessage(models.Model):
 
     def __str__(self):
         return f"{self.sender} @ {self.created_at.strftime('%Y-%m-%d %H:%M:%S')}"
+
